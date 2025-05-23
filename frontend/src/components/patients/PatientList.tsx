@@ -1,9 +1,10 @@
-import PatientRow from '@components/patients/PatientRow';
 import EmptyState from '@components/patients/ui/EmptyState';
 import ErrorState from '@components/patients/ui/ErrorState';
 import LoadingState from '@components/patients/ui/LoadingState';
+import NoResultsState from '@components/patients/ui/NoResultsState';
+import PatientTable from '@components/patients/ui/PatientTable';
 import { usePatients } from '@queries/patient';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const PatientList = () => {
   const [searchName, setSearchName] = useState('');
@@ -29,24 +30,41 @@ const PatientList = () => {
     setSearchName('');
   };
 
-  // Loading state
-  if (isLoading) return <LoadingState />;
+  // Memoize filtered patients to avoid unnecessary recalculations
+  const filteredPatients = useMemo(() => {
+    return data?.patients
+      ? data.patients.filter((patient) =>
+          patient.full_name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : [];
+  }, [data?.patients, searchQuery]);
 
-  // Error state
-  if (isError)
-    return (
-      <ErrorState
-        message={`Failed to load patients: ${error instanceof Error ? error.message : 'Unknown error'}`}
-        onRetry={() => refetch()}
-      />
-    );
+  // Determine the content to display based on state
+  const renderContent = () => {
+    // Loading state
+    if (isLoading) return <LoadingState />;
 
-  // Empty initial state (no patients in the system)
-  if (!data || !data.patients || data.patients.length === 0) return <EmptyState />;
+    // Error state
+    if (isError) {
+      return (
+        <ErrorState
+          message={`Failed to load patients: ${error instanceof Error ? error.message : 'Unknown error'}`}
+          onRetry={() => refetch()}
+        />
+      );
+    }
 
-  const filteredPatients = (data.patients || []).filter((patient) =>
-    patient.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    // Empty initial state (no patients in the system)
+    if (!data || !data.patients || data.patients.length === 0) return <EmptyState />;
+
+    // No patients match search criteria
+    if (filteredPatients.length === 0) {
+      return <NoResultsState searchQuery={searchQuery} onClearSearch={handleClearSearch} />;
+    }
+
+    // Display patient table
+    return <PatientTable patients={filteredPatients} totalCount={data.patients.length} />;
+  };
 
   return (
     <div className="w-full overflow-hidden">
@@ -79,77 +97,7 @@ const PatientList = () => {
         </div>
       </div>
 
-      {filteredPatients.length === 0 ? (
-        // No patients match search criteria
-        <div className="flex items-center justify-center mt-8">
-          <div className="text-center p-6 bg-gray-50 border border-gray-200 rounded-md text-gray-700">
-            <p className="text-lg font-medium">No patients found</p>
-            <p className="mt-2">No patients match your search for "{searchQuery}"</p>
-            <button
-              onClick={handleClearSearch}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition-colors"
-            >
-              Clear Search
-            </button>
-          </div>
-        </div>
-      ) : (
-        // Display patient table
-        <>
-          <div className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-left">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell"
-                    >
-                      DOB
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell"
-                    >
-                      ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell"
-                    >
-                      Resource Type
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredPatients.map((patient) => (
-                    <PatientRow key={patient.id} patient={patient} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 gap-2">
-            <div className="text-sm text-gray-700">
-              Showing <span className="font-medium">{filteredPatients.length}</span> of{' '}
-              <span className="font-medium">{data.patients.length}</span> patient(s)
-            </div>
-          </div>
-        </>
-      )}
+      {renderContent()}
     </div>
   );
 };

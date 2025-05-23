@@ -16,8 +16,6 @@ type UsePatientsReturn = {
 // Mock the patient query hook
 vi.mock('@queries/patient', () => ({
   usePatients: vi.fn(),
-  // Make sure we export the Patient type to match imports in the test file
-  Patient: undefined,
 }));
 
 // Mock the UI components
@@ -38,6 +36,31 @@ vi.mock('@components/patients/ui/EmptyState', () => ({
     <div data-testid="empty-state">
       {title || 'No patients found'}
       {message && <div>{message}</div>}
+    </div>
+  ),
+}));
+
+vi.mock('@components/patients/ui/NoResultsState', () => ({
+  default: ({ searchQuery, onClearSearch }: { searchQuery: string; onClearSearch: () => void }) => (
+    <div data-testid="no-results-state">
+      <p>No patients match your search for "{searchQuery}"</p>
+      <button onClick={onClearSearch}>Clear Search</button>
+    </div>
+  ),
+}));
+
+vi.mock('@components/patients/ui/PatientTable', () => ({
+  default: ({ patients, totalCount }: { patients: Patient[]; totalCount: number }) => (
+    <div data-testid="patient-table">
+      {patients.map((patient) => (
+        <div data-testid={`patient-row-${patient.id}`} key={patient.id}>
+          {patient.full_name}
+        </div>
+      ))}
+      <div className="text-sm text-gray-700">
+        Showing <span className="font-medium">{patients.length}</span> of{' '}
+        <span className="font-medium">{totalCount}</span> patient(s)
+      </div>
     </div>
   ),
 }));
@@ -280,5 +303,65 @@ describe('PatientList Component', () => {
       // Check for the clear search button
       expect(screen.getByText('Clear Search')).toBeInTheDocument();
     });
+  });
+
+  it('should always display search field regardless of component state', async () => {
+    // Define a function to check for search UI elements
+    const assertSearchUIExists = () => {
+      expect(screen.getByText('Patient List')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Search button' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Add a new patient' })).toBeInTheDocument();
+      // Use a more specific selector for the search input
+      expect(screen.getByRole('textbox', { name: 'Search patients' })).toBeInTheDocument();
+    };
+
+    // Test 1: Loading state
+    (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
+      isLoading: true,
+      isError: false,
+      data: null,
+      refetch: mockRefetch,
+    } as UsePatientsReturn);
+
+    const { rerender } = renderWithClient(<PatientList />);
+    expect(screen.getByTestId('loading-state')).toBeInTheDocument();
+    assertSearchUIExists();
+
+    // Test 2: Error state
+    (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
+      isLoading: false,
+      isError: true,
+      error: new Error('Test Error'),
+      refetch: mockRefetch,
+    } as UsePatientsReturn);
+
+    // Use rerender instead of unmount/render
+    rerender(<PatientList />);
+    expect(screen.getByTestId('error-state')).toBeInTheDocument();
+    assertSearchUIExists();
+
+    // Test 3: Empty state
+    (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: { patients: [] },
+      refetch: mockRefetch,
+    } as UsePatientsReturn);
+
+    rerender(<PatientList />);
+    expect(screen.getByTestId('empty-state')).toBeInTheDocument();
+    assertSearchUIExists();
+
+    // Test 4: With data
+    (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: { patients: mockPatients },
+      refetch: mockRefetch,
+    } as UsePatientsReturn);
+
+    rerender(<PatientList />);
+    expect(screen.getByTestId('patient-table')).toBeInTheDocument();
+    assertSearchUIExists();
   });
 });
