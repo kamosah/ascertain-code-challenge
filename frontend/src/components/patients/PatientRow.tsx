@@ -1,13 +1,20 @@
 import { Patient } from '@queries/patient';
+import { useNavigate } from 'react-router-dom';
 
 interface PatientRowProps {
   patient: Patient;
 }
 
 const PatientRow = ({ patient }: PatientRowProps) => {
+  const navigate = useNavigate();
+
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const handleViewPatient = () => {
+    navigate(`/patients/${patient.id}`);
   };
 
   return (
@@ -26,6 +33,7 @@ const PatientRow = ({ patient }: PatientRowProps) => {
       </td>
       <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
         <button
+          onClick={handleViewPatient}
           className="text-blue-600 hover:text-blue-900 mr-2"
           aria-label={`View ${patient.full_name}`}
         >
@@ -37,7 +45,10 @@ const PatientRow = ({ patient }: PatientRowProps) => {
         >
           Edit
         </button>
-        <button className="text-red-600 hover:text-red-900" aria-label={`Delete ${patient.full_name}`}>
+        <button
+          className="text-red-600 hover:text-red-900"
+          aria-label={`Delete ${patient.full_name}`}
+        >
           Delete
         </button>
       </td>

@@ -46,6 +46,10 @@ class Patient(BaseModel):
     id: str
     full_name: str
     birth_date: date
+    gender: str | None = None
+    address: str | None = None
+    phone: str | None = None
+    email: str | None = None
 
 
 # Define model for FHIR resource submission
@@ -82,10 +86,96 @@ async def list_patients(limit: int = 10) -> list[Patient]:
             "id": p.get("id", ""),
             "full_name": full_name,
             "birth_date": p.get("birthDate", ""),
+            "gender": p.get("gender") if p.get("gender") else None,
+            "address": None,  # Simplified for list view
+            "phone": None,
+            "email": None
         }
         mapped_patients.append(mapped_patient)
 
     return mapped_patients[:limit]  # Return only the requested number of patients
+
+
+@app.get("/patients/{patient_id}", response_model=Patient, tags=["Patients"])
+async def get_patient_details(patient_id: str) -> Patient:
+    """
+    Get details for a specific patient by ID.
+    
+    Parameters:
+    - patient_id: The unique identifier of the patient
+    
+    Returns:
+    - Patient: The patient details
+    
+    Raises:
+    - 404: If the patient is not found
+    """
+    # Find the patient in our list
+    patient_data = None
+    for p in patients:
+        if p.get("id") == patient_id:
+            patient_data = p
+            break
+    
+    # If patient not found, raise 404
+    if not patient_data:
+        raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+    
+    # Extract full name from name array (family name + given names)
+    full_name = ""
+    if patient_data.get("name") and len(patient_data["name"]) > 0:
+        name_obj = patient_data["name"][0]
+        given_names = " ".join(name_obj.get("given", []))
+        family_name = name_obj.get("family", "")
+        full_name = f"{given_names} {family_name}".strip()
+    
+    # Format address if available
+    address = None
+    if patient_data.get("address") and len(patient_data["address"]) > 0:
+        addr = patient_data["address"][0]
+        lines = addr.get("line", [])
+        city = addr.get("city", "")
+        state = addr.get("state", "")
+        postal = addr.get("postalCode", "")
+        country = addr.get("country", "")
+        
+        addr_parts = []
+        if lines:
+            addr_parts.append(", ".join(lines))
+        if city:
+            addr_parts.append(city)
+        if state:
+            addr_parts.append(state)
+        if postal:
+            addr_parts.append(postal)
+        if country:
+            addr_parts.append(country)
+            
+        address = ", ".join(addr_parts)
+    
+    # Get phone/email if available (telecom field in FHIR)
+    phone = None
+    email = None
+    if patient_data.get("telecom"):
+        for telecom in patient_data["telecom"]:
+            if telecom.get("system") == "phone" and telecom.get("value"):
+                phone = telecom["value"]
+            elif telecom.get("system") == "email" and telecom.get("value"):
+                email = telecom["value"]
+    
+    # Transform to match Patient model
+    mapped_patient = {
+        "resourceType": patient_data.get("resourceType", ""),
+        "id": patient_data.get("id", ""),
+        "full_name": full_name,
+        "birth_date": patient_data.get("birthDate", ""),
+        "gender": patient_data.get("gender") if patient_data.get("gender") else None,
+        "address": address if address else None,
+        "phone": phone if phone else None,
+        "email": email if email else None
+    }
+    
+    return mapped_patient
 
 
 @app.post("/fhir/push", tags=["FHIR Operations"])
