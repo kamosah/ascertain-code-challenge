@@ -9,11 +9,21 @@
     <script>
       // On page load, check for saved theme preference or system preference
       (function () {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+
+          const root = document.documentElement;
+          if (shouldUseDark) {
+            root.classList.add('dark');
+            root.style.colorScheme = 'dark';
+          } else {
+            root.classList.remove('dark');
+            root.style.colorScheme = 'light';
+          }
+        } catch (error) {
+          console.warn('Failed to initialize theme:', error);
         }
       })();
     </script>
