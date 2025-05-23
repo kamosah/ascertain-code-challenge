@@ -3,7 +3,73 @@ import { apiRequest } from './api';
 import { components } from './schema';
 
 // Export schema types for use in components
-export type Patient = components['schemas']['Patient'];
+export type Patient = components['schemas']['Patient'] & {
+  encounters?: Encounter[];
+  medications?: MedicationRequest[];
+  gender?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+};
+
+export type Encounter = {
+  resourceType: string;
+  id: string;
+  status: string;
+  period: {
+    start?: string;
+    end?: string;
+  };
+  reasonCode?: Array<{
+    text?: string;
+    coding?: Array<{
+      system?: string;
+      code?: string;
+      display?: string;
+    }>;
+  }>;
+};
+
+export type MedicationRequest = {
+  resourceType: string;
+  id: string;
+  status: string;
+  medicationCodeableConcept: {
+    text?: string;
+    coding?: Array<{
+      system?: string;
+      code?: string;
+      display?: string;
+    }>;
+  };
+  authoredOn: string;
+  intent: string;
+  dosageInstruction?: Array<{
+    text?: string;
+    timing?: {
+      repeat?: {
+        frequency?: number;
+        period?: number;
+        periodUnit?: string;
+      };
+    };
+    route?: {
+      text?: string;
+      coding?: Array<{
+        system?: string;
+        code?: string;
+        display?: string;
+      }>;
+    };
+    doseAndRate?: Array<{
+      doseQuantity?: {
+        value?: number;
+        unit?: string;
+      };
+    }>;
+  }>;
+};
+
 export type PatientListResponse = {
   patients: Patient[];
 };

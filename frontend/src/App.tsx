@@ -21,12 +21,16 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Layout>
-          <div className="space-y-6">
-            <h1 className="text-2xl font-bold text-gray-900">Patient Management</h1>
-            <Routes>
-              <Route path="/" element={<PatientList />} />
-              <Route path="/patients/:patientId" element={<PatientDetails />} />
-            </Routes>
+          <div className="space-y-6 custom-scrollbar animate-fade-in">
+            <h1 className="text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white transition-colors duration-200">
+              Patient Management
+            </h1>
+            <div className="theme-transition">
+              <Routes>
+                <Route path="/" element={<PatientList />} />
+                <Route path="/patients/:patientId" element={<PatientDetails />} />
+              </Routes>
+            </div>
           </div>
         </Layout>
       </BrowserRouter>

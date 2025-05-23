@@ -41,6 +41,22 @@ med_requests = load_medication_requests_fhir(MEDICATION_REQUESTS_FILE)
 
 
 # Define Pydantic models for response validation
+class Encounter(BaseModel):
+    resourceType: str
+    id: str
+    status: str
+    period: dict
+    reasonCode: list[dict] | None = None
+    
+class MedicationRequest(BaseModel):
+    resourceType: str
+    id: str 
+    status: str
+    medicationCodeableConcept: dict
+    authoredOn: str
+    intent: str
+    dosageInstruction: list[dict] | None = None
+
 class Patient(BaseModel):
     resourceType: str
     id: str
@@ -50,6 +66,10 @@ class Patient(BaseModel):
     address: str | None = None
     phone: str | None = None
     email: str | None = None
+    
+class PatientWithRelated(Patient):
+    encounters: list[Encounter] | None = None
+    medications: list[MedicationRequest] | None = None
 
 
 # Define model for FHIR resource submission
@@ -96,16 +116,16 @@ async def list_patients(limit: int = 10) -> list[Patient]:
     return mapped_patients[:limit]  # Return only the requested number of patients
 
 
-@app.get("/patients/{patient_id}", response_model=Patient, tags=["Patients"])
-async def get_patient_details(patient_id: str) -> Patient:
+@app.get("/patients/{patient_id}", response_model=PatientWithRelated, tags=["Patients"])
+async def get_patient_details(patient_id: str) -> PatientWithRelated:
     """
-    Get details for a specific patient by ID.
+    Get details for a specific patient by ID, including related encounters and medications.
     
     Parameters:
     - patient_id: The unique identifier of the patient
     
     Returns:
-    - Patient: The patient details
+    - PatientWithRelated: The patient details with related encounters and medications
     
     Raises:
     - 404: If the patient is not found
@@ -172,10 +192,101 @@ async def get_patient_details(patient_id: str) -> Patient:
         "gender": patient_data.get("gender") if patient_data.get("gender") else None,
         "address": address if address else None,
         "phone": phone if phone else None,
-        "email": email if email else None
+        "email": email if email else None,
+        "encounters": [],
+        "medications": []
     }
     
+    # Find patient encounters
+    patient_ref = f"Patient/{patient_id}"
+    patient_encounters = []
+    
+    for enc in encounters:
+        if enc.get("subject", {}).get("reference") == patient_ref:
+            patient_encounters.append(enc)
+    
+    mapped_patient["encounters"] = patient_encounters
+    
+    # Find patient medications
+    patient_medications = []
+    
+    for med in med_requests:
+        if med.get("subject", {}).get("reference") == patient_ref:
+            patient_medications.append(med)
+    
+    mapped_patient["medications"] = patient_medications
+    
     return mapped_patient
+
+
+@app.get("/patients/{patient_id}/encounters", response_model=list[Encounter], tags=["Patients"])
+async def get_patient_encounters(patient_id: str) -> list[Encounter]:
+    """
+    Get all encounters for a specific patient by ID.
+    
+    Parameters:
+    - patient_id: The unique identifier of the patient
+    
+    Returns:
+    - list[Encounter]: A list of the patient's encounters
+    
+    Raises:
+    - 404: If the patient is not found
+    """
+    # Check if patient exists
+    patient_exists = False
+    for p in patients:
+        if p.get("id") == patient_id:
+            patient_exists = True
+            break
+            
+    if not patient_exists:
+        raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+    
+    # Find patient encounters
+    patient_ref = f"Patient/{patient_id}"
+    patient_encounters = []
+    
+    for enc in encounters:
+        if enc.get("subject", {}).get("reference") == patient_ref:
+            patient_encounters.append(enc)
+    
+    return patient_encounters
+
+
+@app.get("/patients/{patient_id}/medications", response_model=list[MedicationRequest], tags=["Patients"])
+async def get_patient_medications(patient_id: str) -> list[MedicationRequest]:
+    """
+    Get all medication requests for a specific patient by ID.
+    
+    Parameters:
+    - patient_id: The unique identifier of the patient
+    
+    Returns:
+    - list[MedicationRequest]: A list of the patient's medication requests
+    
+    Raises:
+    - 404: If the patient is not found
+    """
+    # Check if patient exists
+    patient_exists = False
+    for p in patients:
+        if p.get("id") == patient_id:
+            patient_exists = True
+            break
+            
+    if not patient_exists:
+        raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+    
+    # Find patient medications
+    patient_ref = f"Patient/{patient_id}"
+    patient_medications = []
+    
+    for med in med_requests:
+        if med.get("subject", {}).get("reference") == patient_ref:
+            patient_medications.append(med)
+    
+    return patient_medications
 
 
 @app.post("/fhir/push", tags=["FHIR Operations"])
