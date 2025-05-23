@@ -15,18 +15,25 @@ const PATIENTS_ENDPOINT = '/patients/';
 export const patientKeys = {
   all: ['patients'] as const,
   list: () => [...patientKeys.all, 'list'] as const,
-  search: (name?: string) => [...patientKeys.list(), { name }] as const,
+  search: ({ name, limit }: { name?: string; limit?: number }) =>
+    [...patientKeys.list(), { name, limit }] as const,
   detail: (id: string) => [...patientKeys.all, 'detail', id] as const,
 };
 
 /**
  * Fetch patients from the API
  */
-export const fetchPatients = async (params?: { name?: string }): Promise<PatientListResponse> => {
+export const fetchPatients = async (params?: {
+  name?: string;
+  limit?: number;
+}): Promise<PatientListResponse> => {
   const searchParams = new URLSearchParams();
 
   if (params?.name) {
     searchParams.append('name', params.name);
+  }
+  if (params?.limit) {
+    searchParams.append('limit', String(params.limit));
   }
 
   const queryString = searchParams.toString();
@@ -47,9 +54,9 @@ export const fetchPatientDetails = async (patientId: string): Promise<Patient> =
 /**
  * Hook to get patients with optional search parameters
  */
-export const usePatients = (params?: { name?: string }) => {
+export const usePatients = (params: { name?: string; limit?: number } = {}) => {
   return useQuery({
-    queryKey: patientKeys.search(params?.name),
+    queryKey: patientKeys.search(params),
     queryFn: () => fetchPatients(params),
   });
 };

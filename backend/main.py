@@ -59,11 +59,13 @@ async def root():
 
 
 @app.get("/patients/", response_model=list[Patient], tags=["Patients"])
-async def list_patients() -> list[Patient]:
+async def list_patients(limit: int = 10) -> list[Patient]:
     """
     Get all patients.
+    
+    Parameters:
+    - limit: Maximum number of patients to return (default: 10)
     """
-
     mapped_patients = []
     for p in patients:
         # Extract full name from name array (family name + given names)
@@ -83,7 +85,7 @@ async def list_patients() -> list[Patient]:
         }
         mapped_patients.append(mapped_patient)
 
-    return mapped_patients
+    return mapped_patients[:limit]  # Return only the requested number of patients
 
 
 @app.post("/fhir/push", tags=["FHIR Operations"])
