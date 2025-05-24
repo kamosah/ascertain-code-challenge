@@ -28,6 +28,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@views/*": ["src/views/*"],
+      "@ui/*": ["src/components/ui/*"],
+      "@layout/*": ["src/components/layout/*"],
       "@queries/*": ["src/queries/*"],
       "@types/*": ["src/types/*"],
       "@test/*": ["src/test/*"]

@@ -1,7 +1,7 @@
-import Layout from '@components/Layout';
-import PatientDetails from '@components/patients/PatientDetails';
-import PatientList from '@components/patients/PatientList';
-import ThemeToggle from '@components/ui/ThemeToggle';
+import Layout from '@layout/Layout';
+import PatientDetails from '@views/patients/PatientDetails';
+import PatientList from '@views/patients/PatientList';
+import ThemeToggle from '@ui/ThemeToggle';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';

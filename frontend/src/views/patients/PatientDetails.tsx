@@ -1,5 +1,5 @@
-import ErrorState from '@components/patients/ui/ErrorState';
-import LoadingState from '@components/patients/ui/LoadingState';
+import ErrorState from '@ui/ErrorState';
+import LoadingState from '@ui/LoadingState';
 import { usePatientDetails, type Encounter, type MedicationRequest } from '@queries/patient';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

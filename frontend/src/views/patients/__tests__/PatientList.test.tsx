@@ -18,11 +18,11 @@ vi.mock('@queries/patient', () => ({
 }));
 
 // Mock the UI components
-vi.mock('@components/patients/ui/LoadingState', () => ({
+vi.mock('@ui/LoadingState', () => ({
   default: () => <div data-testid="loading-state">Loading...</div>,
 }));
 
-vi.mock('@components/patients/ui/ErrorState', () => ({
+vi.mock('@ui/ErrorState', () => ({
   default: ({ message, onRetry }: { message: string; onRetry: () => void }) => (
     <div data-testid="error-state" onClick={onRetry}>
       {message}
@@ -30,7 +30,7 @@ vi.mock('@components/patients/ui/ErrorState', () => ({
   ),
 }));
 
-vi.mock('@components/patients/ui/EmptyState', () => ({
+vi.mock('@ui/EmptyState', () => ({
   default: ({ title, message }: { title?: string; message?: string }) => (
     <div data-testid="empty-state">
       {title || 'No patients found'}
@@ -39,7 +39,7 @@ vi.mock('@components/patients/ui/EmptyState', () => ({
   ),
 }));
 
-vi.mock('@components/patients/ui/NoResultsState', () => ({
+vi.mock('@ui/NoResultsState', () => ({
   default: ({ searchQuery, onClearSearch }: { searchQuery: string; onClearSearch: () => void }) => (
     <div data-testid="no-results-state">
       <p>No patients match your search for "{searchQuery}"</p>
@@ -48,7 +48,7 @@ vi.mock('@components/patients/ui/NoResultsState', () => ({
   ),
 }));
 
-vi.mock('@components/patients/ui/PatientTable', () => ({
+vi.mock('@ui/PatientTable', () => ({
   default: ({ patients, totalCount }: { patients: Patient[]; totalCount: number }) => (
     <div data-testid="patient-table">
       {patients.map((patient) => (

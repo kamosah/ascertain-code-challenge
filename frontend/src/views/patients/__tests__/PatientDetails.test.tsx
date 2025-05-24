@@ -1,7 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@test/utils';
 import PatientDetails from '../PatientDetails';
-import { usePatientDetails, type Patient, type Encounter, type MedicationRequest } from '@queries/patient';
+import {
+  usePatientDetails,
+  type Patient,
+  type Encounter,
+  type MedicationRequest,
+} from '@queries/patient';
 
 // Mock react-router-dom
 const mockNavigate = vi.fn();
@@ -18,11 +23,11 @@ vi.mock('@queries/patient', () => ({
 }));
 
 // Mock the UI components
-vi.mock('@components/patients/ui/LoadingState', () => ({
+vi.mock('@ui/LoadingState', () => ({
   default: () => <div data-testid="loading-state">Loading patient details...</div>,
 }));
 
-vi.mock('@components/patients/ui/ErrorState', () => ({
+vi.mock('@ui/ErrorState', () => ({
   default: ({ message, onRetry }: { message: string; onRetry: () => void }) => (
     <div data-testid="error-state">
       <p>{message}</p>

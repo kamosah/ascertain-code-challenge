@@ -1,8 +1,8 @@
-import EmptyState from '@components/patients/ui/EmptyState';
-import ErrorState from '@components/patients/ui/ErrorState';
-import LoadingState from '@components/patients/ui/LoadingState';
-import NoResultsState from '@components/patients/ui/NoResultsState';
-import PatientTable from '@components/patients/ui/PatientTable';
+import EmptyState from '@ui/EmptyState';
+import ErrorState from '@ui/ErrorState';
+import LoadingState from '@ui/LoadingState';
+import NoResultsState from '@ui/NoResultsState';
+import PatientTable from '@ui/PatientTable';
 import { usePatients } from '@queries/patient';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { Paper, TextInput, Button, Group, Title, Stack, ActionIcon, Flex } from '@mantine/core';

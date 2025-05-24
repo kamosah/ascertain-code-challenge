@@ -32,8 +32,40 @@ This repository contains Ascertain's technical assessment.
 
 ## Project Structure
 
-- `/frontend` - React client application
-- `/backend` - FastAPI server application
+```text
+├── backend/                    # FastAPI server application
+│   ├── data/                  # FHIR data files
+│   │   ├── documents/         # Medical documents (SOAP notes)
+│   │   ├── encounters.json    # Patient encounters
+│   │   ├── medication_requests.json
+│   │   └── patients.json      # Patient records
+│   ├── utils/                 # Utility functions
+│   ├── main.py               # FastAPI application
+│   └── README.md
+├── frontend/                   # React client application
+│   ├── src/
+│   │   ├── components/        # Reusable components
+│   │   │   ├── layout/       # Layout components
+│   │   │   ├── patients/     # Patient-specific components
+│   │   │   └── ui/           # General UI components
+│   │   ├── views/            # Page-level components
+│   │   │   └── patients/     # Patient views & tests
+│   │   ├── queries/          # API queries and data fetching
+│   │   ├── providers/        # React context providers
+│   │   ├── styles/           # Global styles
+│   │   └── test/             # Test utilities
+│   ├── public/               # Static assets
+│   └── README.md
+├── docker-compose.yml         # Docker orchestration
+└── README.md
+```
+
+The frontend follows a clean, modular architecture that separates:
+
+- **Views**: Page-level components (like PatientList, PatientDetails)
+- **Components**: Reusable UI components organized by feature
+- **Queries**: Data fetching and API interaction logic
+- **Providers**: React context and global state management
 
 ## Getting Started
 
