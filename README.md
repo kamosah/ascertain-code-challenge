@@ -6,25 +6,25 @@ The following tables showcase the different views of the application in both lig
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient List Light](./frontend/public/images/PatientListLight.png) | ![Patient List Dark](./frontend/public/images/PatientListDark.png) |
+| ![Patient List Light](https://github.com/user-attachments/assets/5781ea7b-56d2-4098-b5c8-5e920525ec2c) | ![Patient List Dark](https://github.com/user-attachments/assets/0613e663-dda4-433c-baed-d5281e56ed0d) |
 
 ### Patient Details - Details View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Details Light](./frontend/public/images/PatientDetailsDetailsLight.png) | ![Patient Details Dark](./frontend/public/images/PatientDetailsDetailsDark.png) |
+| ![Patient Details Light](https://github.com/user-attachments/assets/440105a9-d44b-41af-88a8-1e19eba5fef8) | ![Patient Details Dark](https://github.com/user-attachments/assets/f34a7e72-1d53-475d-97b1-7f98e62de457) |
 
 ### Patient Details - Encounters View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Encounters Light](./frontend/public/images/PatientDetailsEncountersLight.png) | ![Patient Encounters Dark](./frontend/public/images/PatientDetailsEncountersDark.png) |
+| ![Patient Encounters Light](https://github.com/user-attachments/assets/467522a5-678c-4298-9748-6626115aaf89) | ![Patient Encounters Dark](https://github.com/user-attachments/assets/279bb796-aaaa-4c35-a817-9f708445945a) |
 
 ### Patient Details - Medications View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Medications Light](./frontend/public/images/PatientDetailsMedicationsLight.png) | ![Patient Medications Dark](./frontend/public/images/PatientDetailsMedicationsDark.png) |
+| ![Patient Medications Light](https://github.com/user-attachments/assets/369bba5d-a429-4958-b6d8-e7675ac5dd28) | ![Patient Medications Dark](https://github.com/user-attachments/assets/06654550-020d-4bd1-95ae-e71b2635eb00) |
 
 # Ascertain Code Challenge
 
