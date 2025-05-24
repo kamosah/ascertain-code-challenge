@@ -9,9 +9,13 @@ export default defineConfig({
     alias: [
       { find: '@', replacement: '/src' },
       { find: '@components', replacement: '/src/components' },
+      { find: '@views', replacement: '/src/views' },
+      { find: '@ui', replacement: '/src/components/ui' },
+      { find: '@layout', replacement: '/src/components/layout' },
       { find: '@queries', replacement: '/src/queries' },
-      { find: '@types', replacement: '/src/types' }
-    ]
+      { find: '@types', replacement: '/src/types' },
+      { find: '@test', replacement: '/src/test' },
+    ],
   },
   // @ts-expect-error - Vitest configuration
   test: {
@@ -19,4 +23,4 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
   },
-})
+});
