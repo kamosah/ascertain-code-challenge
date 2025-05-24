@@ -1,7 +1,17 @@
 import { Patient } from '@queries/patient';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Table, ActionIcon, Badge, Code, Group, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
+import {
+  Table,
+  Box,
+  ActionIcon,
+  Badge,
+  Code,
+  Group,
+  Text,
+  Tooltip,
+  useMantineColorScheme,
+} from '@mantine/core';
 import { IconEye, IconEdit, IconTrash } from '@tabler/icons-react';
 
 interface PatientRowProps {
@@ -36,14 +46,14 @@ const PatientRow = ({ patient }: PatientRowProps) => {
       }}
     >
       <Table.Td>
-        <div>
+        <Box>
           <Text fw={500} size="sm">
             {patient.full_name}
           </Text>
           <Text size="xs" c="dimmed" hiddenFrom="sm">
             DOB: {formatDate(patient.birth_date)}
           </Text>
-        </div>
+        </Box>
       </Table.Td>
       <Table.Td visibleFrom="sm">
         <Text size="sm" c="dimmed">

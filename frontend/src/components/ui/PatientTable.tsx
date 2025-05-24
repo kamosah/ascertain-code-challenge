@@ -254,7 +254,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients, totalCount }) => 
             Previous
           </Button>
 
-          <Badge variant="filled" size="lg">
+          <Badge variant="default" size="lg">
             Page 1
           </Badge>
 

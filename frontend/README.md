@@ -20,8 +20,8 @@ The frontend follows a clean, organized structure that separates concerns and pr
 src/
 ├── App.css
 ├── App.tsx
-├── assets/                     # Static assets
-├── components/                 # Reusable components
+├── assets/                    # Static assets
+├── components/                # Reusable components
 │   ├── index.ts               # Component exports
 │   ├── layout/                # Layout components
 │   │   ├── index.ts
@@ -37,7 +37,7 @@ src/
 │       ├── NoResultsState.tsx
 │       ├── PatientTable.tsx
 │       └── ThemeToggle.tsx
-├── providers/                  # React context providers
+├── providers/                 # React context providers
 ├── queries/                   # API queries and data fetching
 ├── stories/                   # Storybook stories
 ├── styles/                    # Global styles and utilities

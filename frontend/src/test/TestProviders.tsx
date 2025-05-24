@@ -6,7 +6,6 @@ interface TestProvidersProps {
   children: ReactNode;
 }
 
-// Create a single query client instance to reuse across tests
 const createTestQueryClient = () => new QueryClient({
   defaultOptions: {
     queries: {

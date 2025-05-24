@@ -2,7 +2,6 @@ import { MantineProvider as Provider, createTheme, MantineColorsTuple } from '@m
 import { Notifications } from '@mantine/notifications';
 import { ReactNode } from 'react';
 
-// Define custom colors
 const primaryColor: MantineColorsTuple = [
   '#eff6ff',
   '#dbeafe',

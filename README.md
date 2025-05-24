@@ -18,7 +18,7 @@ The following tables showcase the different views of the application in both lig
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Encounters Light](frontend/public/images/PatientDetailsEncoutersLight.png) | ![Patient Encounters Dark](frontend/public/images/PatientDetailsEncountersDark.png) |
+| ![Patient Encounters Light](frontend/public/images/PatientDetailsEncountersLight.png) | ![Patient Encounters Dark](frontend/public/images/PatientDetailsEncountersDark.png) |
 
 ### Patient Details - Medications View
 
@@ -33,18 +33,18 @@ This repository contains Ascertain's technical assessment.
 ## Project Structure
 
 ```text
-├── backend/                    # FastAPI server application
+├── backend/                   # FastAPI server application
 │   ├── data/                  # FHIR data files
 │   │   ├── documents/         # Medical documents (SOAP notes)
 │   │   ├── encounters.json    # Patient encounters
-│   │   ├── medication_requests.json
+│   │   ├── medication_requests.json # Medication requests
 │   │   └── patients.json      # Patient records
 │   ├── utils/                 # Utility functions
-│   ├── main.py               # FastAPI application
+│   ├── main.py                # FastAPI application
 │   └── README.md
-├── frontend/                   # React client application
+├── frontend/                  # React client application
 │   ├── src/
-│   │   ├── components/        # Reusable components
+│   │   ├── components/       # Reusable components
 │   │   │   ├── layout/       # Layout components
 │   │   │   ├── patients/     # Patient-specific components
 │   │   │   └── ui/           # General UI components
