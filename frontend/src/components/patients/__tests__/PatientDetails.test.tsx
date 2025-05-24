@@ -220,7 +220,7 @@ describe('PatientDetails', () => {
 
       expect(screen.getByText('Back to Patients')).toBeInTheDocument();
       expect(screen.getByText('Edit Patient')).toBeInTheDocument();
-      
+
       // Edit button should be disabled
       const editButton = screen.getByText('Edit Patient').closest('button');
       expect(editButton).toBeDisabled();
@@ -236,7 +236,7 @@ describe('PatientDetails', () => {
     it('should render all tab options', () => {
       render(<PatientDetails />);
 
-      expect(screen.getByText('Patient Details')).toBeInTheDocument();
+      expect(screen.getByText('Details')).toBeInTheDocument();
       expect(screen.getByText('Encounters')).toBeInTheDocument();
       expect(screen.getByText('Medications')).toBeInTheDocument();
     });
@@ -424,7 +424,7 @@ describe('PatientDetails', () => {
       });
 
       // Switch back to details tab
-      fireEvent.click(screen.getByText('Patient Details'));
+      fireEvent.click(screen.getByText('Details'));
       await waitFor(() => {
         expect(screen.getByText('Full Name')).toBeInTheDocument();
       });
