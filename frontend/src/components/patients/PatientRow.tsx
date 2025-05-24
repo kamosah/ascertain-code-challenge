@@ -92,6 +92,7 @@ const PatientRow = ({ patient }: PatientRowProps) => {
             onMouseLeave={() => setIsActionHovered('')}
             className="relative group text-secondary-600 dark:text-secondary-400 hover:text-secondary-800 dark:hover:text-secondary-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-secondary-500/50 focus:ring-offset-1 dark:focus:ring-offset-secondary-800 rounded-md p-1.5"
             aria-label={`Edit ${patient.full_name}`}
+            disabled
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +113,7 @@ const PatientRow = ({ patient }: PatientRowProps) => {
             onMouseLeave={() => setIsActionHovered('')}
             className="relative group text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-1 dark:focus:ring-offset-secondary-800 rounded-md p-1.5"
             aria-label={`Delete ${patient.full_name}`}
+            disabled
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

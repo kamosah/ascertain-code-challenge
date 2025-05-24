@@ -11,8 +11,10 @@ interface PatientInfoRowProps {
 
 const PatientInfoRow = ({ label, value }: PatientInfoRowProps) => (
   <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-    <dt className="text-sm font-medium text-gray-500">{label}</dt>
-    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{value || 'N/A'}</dd>
+    <dt className="text-sm font-medium text-secondary-500 dark:text-secondary-400">{label}</dt>
+    <dd className="mt-1 text-sm text-secondary-900 dark:text-white sm:col-span-2 sm:mt-0">
+      {value || 'N/A'}
+    </dd>
   </div>
 );
 
@@ -38,24 +40,24 @@ const EncounterCard = ({ encounter }: EncounterCardProps) => {
     : 'Date not specified';
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+    <div className="bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 rounded-lg mb-4 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div className="px-4 py-3 bg-secondary-50 dark:bg-secondary-700 border-b border-secondary-200 dark:border-secondary-600 flex justify-between items-center">
         <div>
-          <h3 className="text-md font-medium text-gray-800 flex items-center">
+          <h3 className="text-md font-medium text-secondary-800 dark:text-white flex items-center">
             <span className="mr-2">Encounter ID:</span>
-            <span className="font-mono bg-gray-100 px-2 py-0.5 rounded text-sm">
+            <span className="font-mono bg-secondary-100 dark:bg-secondary-600 px-2 py-0.5 rounded text-sm">
               {encounter.id}
             </span>
           </h3>
-          <p className="text-sm text-gray-500 mt-1">{periodText}</p>
+          <p className="text-sm text-secondary-500 dark:text-secondary-400 mt-1">{periodText}</p>
         </div>
         <span
           className={`px-2.5 py-1 rounded-full text-xs font-medium ${
             encounter.status === 'finished'
-              ? 'bg-green-100 text-green-800'
+              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
               : encounter.status === 'in-progress'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-gray-100 text-gray-800'
+                ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
+                : 'bg-secondary-100 dark:bg-secondary-700 text-secondary-800 dark:text-secondary-300'
           }`}
         >
           {encounter.status.charAt(0).toUpperCase() + encounter.status.slice(1)}
@@ -64,8 +66,10 @@ const EncounterCard = ({ encounter }: EncounterCardProps) => {
       <div className="px-4 py-3">
         <div className="grid grid-cols-1 gap-2">
           <div>
-            <span className="text-sm font-medium text-gray-500">Reason:</span>
-            <p className="text-sm text-gray-900">{reasonText}</p>
+            <span className="text-sm font-medium text-secondary-500 dark:text-secondary-400">
+              Reason:
+            </span>
+            <p className="text-sm text-secondary-900 dark:text-white">{reasonText}</p>
           </div>
         </div>
       </div>
@@ -93,21 +97,23 @@ const MedicationCard = ({ medication }: MedicationCardProps) => {
   const dosage = medication.dosageInstruction?.[0]?.text || 'No dosage instructions provided';
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+    <div className="bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 rounded-lg mb-4 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div className="px-4 py-3 bg-secondary-50 dark:bg-secondary-700 border-b border-secondary-200 dark:border-secondary-600 flex justify-between items-center">
         <div>
-          <h3 className="text-md font-medium text-gray-800">{medicationName}</h3>
-          <p className="text-sm text-gray-500 mt-1">
+          <h3 className="text-md font-medium text-secondary-800 dark:text-white">
+            {medicationName}
+          </h3>
+          <p className="text-sm text-secondary-500 dark:text-secondary-400 mt-1">
             Prescribed: {formatDate(medication.authoredOn)}
           </p>
         </div>
         <span
           className={`px-2.5 py-1 rounded-full text-xs font-medium ${
             medication.status === 'active'
-              ? 'bg-green-100 text-green-800'
+              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
               : medication.status === 'stopped'
-                ? 'bg-red-100 text-red-800'
-                : 'bg-gray-100 text-gray-800'
+                ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+                : 'bg-secondary-100 dark:bg-secondary-700 text-secondary-800 dark:text-secondary-300'
           }`}
         >
           {medication.status.charAt(0).toUpperCase() + medication.status.slice(1)}
@@ -116,12 +122,16 @@ const MedicationCard = ({ medication }: MedicationCardProps) => {
       <div className="px-4 py-3">
         <div className="grid grid-cols-1 gap-2">
           <div>
-            <span className="text-sm font-medium text-gray-500">Dosage:</span>
-            <p className="text-sm text-gray-900">{dosage}</p>
+            <span className="text-sm font-medium text-secondary-500 dark:text-secondary-400">
+              Dosage:
+            </span>
+            <p className="text-sm text-secondary-900 dark:text-white">{dosage}</p>
           </div>
           <div className="mt-2">
-            <span className="text-sm font-medium text-gray-500">Intent:</span>
-            <p className="text-sm text-gray-900">{medication.intent}</p>
+            <span className="text-sm font-medium text-secondary-500 dark:text-secondary-400">
+              Intent:
+            </span>
+            <p className="text-sm text-secondary-900 dark:text-white">{medication.intent}</p>
           </div>
         </div>
       </div>
@@ -164,7 +174,7 @@ const PatientDetails = () => {
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={handleBack}
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +195,7 @@ const PatientDetails = () => {
             onClick={() => {
               // Handle edit patient logic here
             }}
-            className="px-3 py-1.5 bg-blue-500 text-sm font-medium rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 bg-primary-500 dark:bg-primary-600 text-white text-sm font-medium rounded hover:bg-primary-600 dark:hover:bg-primary-700 transition-colors disabled:opacity-50"
             disabled
           >
             Edit Patient
@@ -193,40 +203,44 @@ const PatientDetails = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
-        <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800">{patient.full_name}</h2>
-          <p className="mt-1 text-sm text-gray-500">Patient ID: {patient.id}</p>
+      <div className="bg-white dark:bg-secondary-800 shadow rounded-lg overflow-hidden mb-6 transition-colors">
+        <div className="px-4 py-5 sm:px-6 bg-secondary-50 dark:bg-secondary-700 border-b border-secondary-200 dark:border-secondary-600 transition-colors">
+          <h2 className="text-xl font-semibold text-secondary-800 dark:text-white">
+            {patient.full_name}
+          </h2>
+          <p className="mt-1 text-sm text-secondary-500 dark:text-secondary-400">
+            Patient ID: {patient.id}
+          </p>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-secondary-200 dark:border-secondary-600 transition-colors">
           <nav className="flex w-full -mb-px">
             <button
-              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 ${
+              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 transition-colors rounded-none ${
                 activeTab === 'details'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                  : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 hover:border-secondary-300 dark:hover:border-secondary-500'
               }`}
               onClick={() => setActiveTab('details')}
             >
               Patient Details
             </button>
             <button
-              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 ${
+              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 transition-colors rounded-none ${
                 activeTab === 'encounters'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                  : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 hover:border-secondary-300 dark:hover:border-secondary-500'
               }`}
               onClick={() => setActiveTab('encounters')}
             >
               Encounters
             </button>
             <button
-              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 ${
+              className={`flex-1 py-3 text-sm font-medium border-b-2 focus:outline-none focus:ring-0 transition-colors rounded-none ${
                 activeTab === 'medications'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                  : 'border-transparent text-secondary-500 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 hover:border-secondary-300 dark:hover:border-secondary-500'
               }`}
               onClick={() => setActiveTab('medications')}
             >
@@ -236,8 +250,8 @@ const PatientDetails = () => {
         </div>
 
         {activeTab === 'details' && (
-          <div className="border-t border-gray-200">
-            <dl className="divide-y divide-gray-200">
+          <div className="border-t border-secondary-200 dark:border-secondary-600">
+            <dl className="divide-y divide-secondary-200 dark:divide-secondary-600">
               <PatientInfoRow label="Full Name" value={patient.full_name} />
               <PatientInfoRow label="Date of Birth" value={formatDate(patient.birth_date)} />
               <PatientInfoRow label="Gender" value={patient.gender} />
@@ -263,13 +277,17 @@ const PatientDetails = () => {
           <div className="p-6">
             {patient.encounters && patient.encounters.length > 0 ? (
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Patient Encounters</h3>
+                <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">
+                  Patient Encounters
+                </h3>
                 {patient.encounters.map((encounter) => (
                   <EncounterCard key={encounter.id} encounter={encounter} />
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 italic">No encounters found for this patient.</p>
+              <p className="text-secondary-500 dark:text-secondary-400 italic">
+                No encounters found for this patient.
+              </p>
             )}
           </div>
         )}
@@ -278,13 +296,17 @@ const PatientDetails = () => {
           <div className="p-6">
             {patient.medications && patient.medications.length > 0 ? (
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Patient Medications</h3>
+                <h3 className="text-lg font-medium text-secondary-900 dark:text-white mb-4">
+                  Patient Medications
+                </h3>
                 {patient.medications.map((medication) => (
                   <MedicationCard key={medication.id} medication={medication} />
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 italic">No medications found for this patient.</p>
+              <p className="text-secondary-500 dark:text-secondary-400 italic">
+                No medications found for this patient.
+              </p>
             )}
           </div>
         )}
