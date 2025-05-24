@@ -97,7 +97,7 @@ This will start both frontend and backend services:
 ### Frontend
 
 - React 19 with TypeScript
-- Mantine UI and Tailwind CSS
+- Mantine UI
 
 ### Backend
 
