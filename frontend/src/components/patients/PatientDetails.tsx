@@ -18,7 +18,7 @@ import {
   Table,
   useMantineColorScheme,
 } from '@mantine/core';
-import { IconArrowLeft, IconEdit, IconCalendar, IconPill } from '@tabler/icons-react';
+import { IconArrowLeft, IconEdit, IconCalendar, IconPill, IconUser } from '@tabler/icons-react';
 
 interface PatientInfoTableProps {
   data: Array<{
@@ -34,13 +34,14 @@ const PatientInfoTable = ({ data }: PatientInfoTableProps) => {
         style={{
           fontWeight: 500,
           color: 'var(--mantine-color-dimmed)',
-          width: '140px',
+          width: '180px',
+          whiteSpace: 'nowrap',
         }}
         p="lg"
       >
         {item.label}
       </Table.Td>
-      <Table.Td align="right">{item.value || 'N/A'}</Table.Td>
+      <Table.Td>{item.value || 'N/A'}</Table.Td>
     </Table.Tr>
   ));
 
@@ -322,7 +323,9 @@ const PatientDetails = () => {
             onChange={(value) => setActiveTab(value as 'details' | 'encounters' | 'medications')}
           >
             <Tabs.List grow>
-              <Tabs.Tab value="details">Patient Details</Tabs.Tab>
+              <Tabs.Tab value="details" leftSection={<IconUser size={16} />}>
+                Details
+              </Tabs.Tab>
               <Tabs.Tab value="encounters" leftSection={<IconCalendar size={16} />}>
                 Encounters
               </Tabs.Tab>
