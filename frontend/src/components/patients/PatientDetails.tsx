@@ -15,24 +15,54 @@ import {
   Card,
   Code,
   Divider,
+  Table,
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconArrowLeft, IconEdit, IconCalendar, IconPill } from '@tabler/icons-react';
 
-interface PatientInfoRowProps {
-  label: string;
-  value: string | null | undefined;
+interface PatientInfoTableProps {
+  data: Array<{
+    label: string;
+    value: string | null | undefined;
+  }>;
 }
 
-const PatientInfoRow = ({ label, value }: PatientInfoRowProps) => (
-  <Group justify="space-between" py="sm">
-    <Text size="sm" fw={500} c="dimmed" style={{ minWidth: '120px' }}>
-      {label}
-    </Text>
-    <Text size="sm" style={{ textAlign: 'right', flex: 1 }}>
-      {value || 'N/A'}
-    </Text>
-  </Group>
-);
+const PatientInfoTable = ({ data }: PatientInfoTableProps) => {
+  const rows = data.map((item, index) => (
+    <Table.Tr key={index}>
+      <Table.Td
+        style={{
+          fontWeight: 500,
+          color: 'var(--mantine-color-dimmed)',
+          width: '140px',
+        }}
+        p="lg"
+      >
+        {item.label}
+      </Table.Td>
+      <Table.Td align="right">{item.value || 'N/A'}</Table.Td>
+    </Table.Tr>
+  ));
+
+  return (
+    <Table
+      highlightOnHover
+      withTableBorder
+      withColumnBorders={false}
+      styles={{
+        table: {
+          borderRadius: '8px',
+          overflow: 'hidden',
+        },
+        tr: {
+          transition: 'background-color 150ms ease',
+        },
+      }}
+    >
+      <Table.Tbody>{rows}</Table.Tbody>
+    </Table>
+  );
+};
 
 interface EncounterCardProps {
   encounter: Encounter;
@@ -67,7 +97,23 @@ const EncounterCard = ({ encounter }: EncounterCardProps) => {
   };
 
   return (
-    <Card shadow="sm" padding="md" radius="md" withBorder mb="md">
+    <Card
+      shadow="sm"
+      padding="md"
+      radius="md"
+      withBorder
+      mb="md"
+      styles={{
+        root: {
+          transition: 'all 150ms ease',
+          cursor: 'pointer',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: 'var(--mantine-shadow-md)',
+          },
+        },
+      }}
+    >
       <Group justify="space-between" mb="xs">
         <Stack gap="xs" style={{ flex: 1 }}>
           <Group gap="xs">
@@ -128,7 +174,23 @@ const MedicationCard = ({ medication }: MedicationCardProps) => {
   };
 
   return (
-    <Card shadow="sm" padding="md" radius="md" withBorder mb="md">
+    <Card
+      shadow="sm"
+      padding="md"
+      radius="md"
+      withBorder
+      mb="md"
+      styles={{
+        root: {
+          transition: 'all 150ms ease',
+          cursor: 'pointer',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: 'var(--mantine-shadow-md)',
+          },
+        },
+      }}
+    >
       <Group justify="space-between" mb="xs">
         <Stack gap="xs" style={{ flex: 1 }}>
           <Title order={4} size="md">
@@ -165,6 +227,17 @@ const PatientDetails = () => {
   const { patientId } = useParams<{ patientId: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'details' | 'encounters' | 'medications'>('details');
+  const { colorScheme } = useMantineColorScheme();
+
+  // Get theme-aware colors for the header section
+  const getHeaderColors = () => {
+    return {
+      backgroundColor:
+        colorScheme === 'dark' ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
+      borderColor:
+        colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)',
+    };
+  };
 
   // Fetch patient details using React Query
   const { data: patient, isLoading, isError, error, refetch } = usePatientDetails(patientId || '');
@@ -202,14 +275,38 @@ const PatientDetails = () => {
         </Button>
       </Group>
 
-      <Paper shadow="sm" radius="md" withBorder>
+      <Paper
+        shadow="sm"
+        radius="md"
+        withBorder
+        styles={{
+          root: {
+            transition: 'all 200ms ease',
+            '&:hover': {
+              boxShadow: 'var(--mantine-shadow-lg)',
+            },
+          },
+        }}
+      >
         <Stack gap={0}>
           <Group
             justify="space-between"
             p="lg"
             style={{
-              backgroundColor: 'var(--mantine-color-gray-0)',
-              borderBottom: '1px solid var(--mantine-color-gray-3)',
+              backgroundColor: getHeaderColors().backgroundColor,
+              borderBottom: `1px solid ${getHeaderColors().borderColor}`,
+              transition: 'all 150ms ease',
+              cursor: 'default',
+            }}
+            styles={{
+              root: {
+                '&:hover': {
+                  backgroundColor:
+                    colorScheme === 'dark'
+                      ? 'var(--mantine-color-dark-5)'
+                      : 'var(--mantine-color-gray-1)',
+                },
+              },
             }}
           >
             <Stack gap="xs">
@@ -235,39 +332,24 @@ const PatientDetails = () => {
             </Tabs.List>
 
             <Tabs.Panel value="details" p="lg">
-              <Stack gap="xs">
-                <PatientInfoRow label="Full Name" value={patient.full_name} />
-                <Divider />
-                <PatientInfoRow label="Date of Birth" value={formatDate(patient.birth_date)} />
-                <Divider />
-                <PatientInfoRow label="Gender" value={patient.gender} />
-                <Divider />
-                <PatientInfoRow label="Address" value={patient.address} />
-                <Divider />
-                <PatientInfoRow label="Phone" value={patient.phone} />
-                <Divider />
-                <PatientInfoRow label="Email" value={patient.email} />
-                <Divider />
-                <PatientInfoRow label="Resource Type" value={patient.resourceType} />
-                <Divider />
-                <PatientInfoRow label="ID" value={patient.id} />
-                <Divider />
-                {patient.encounters && (
-                  <>
-                    <PatientInfoRow
-                      label="Encounter Count"
-                      value={String(patient.encounters.length)}
-                    />
-                    <Divider />
-                  </>
-                )}
-                {patient.medications && (
-                  <PatientInfoRow
-                    label="Medication Count"
-                    value={String(patient.medications.length)}
-                  />
-                )}
-              </Stack>
+              <PatientInfoTable
+                data={[
+                  { label: 'Full Name', value: patient.full_name },
+                  { label: 'Date of Birth', value: formatDate(patient.birth_date) },
+                  { label: 'Gender', value: patient.gender },
+                  { label: 'Address', value: patient.address },
+                  { label: 'Phone', value: patient.phone },
+                  { label: 'Email', value: patient.email },
+                  { label: 'Resource Type', value: patient.resourceType },
+                  { label: 'ID', value: patient.id },
+                  ...(patient.encounters
+                    ? [{ label: 'Encounter Count', value: String(patient.encounters.length) }]
+                    : []),
+                  ...(patient.medications
+                    ? [{ label: 'Medication Count', value: String(patient.medications.length) }]
+                    : []),
+                ]}
+              />
             </Tabs.Panel>
 
             <Tabs.Panel value="encounters" p="lg">

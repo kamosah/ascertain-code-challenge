@@ -1,10 +1,11 @@
 import Layout from '@components/Layout';
 import PatientDetails from '@components/patients/PatientDetails';
 import PatientList from '@components/patients/PatientList';
+import ThemeToggle from '@components/ui/ThemeToggle';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Stack, Title } from '@mantine/core';
+import { Stack, Title, Group } from '@mantine/core';
 import './App.css';
 
 // Create a client
@@ -23,9 +24,12 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Stack gap="xl">
-            <Title order={1} size="h1">
-              Patient Management
-            </Title>
+            <Group justify="space-between" align="center">
+              <Title order={1} size="h1">
+                Patient Management
+              </Title>
+              <ThemeToggle />
+            </Group>
             <Routes>
               <Route path="/" element={<PatientList />} />
               <Route path="/patients/:patientId" element={<PatientDetails />} />

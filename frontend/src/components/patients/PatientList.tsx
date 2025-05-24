@@ -3,7 +3,6 @@ import ErrorState from '@components/patients/ui/ErrorState';
 import LoadingState from '@components/patients/ui/LoadingState';
 import NoResultsState from '@components/patients/ui/NoResultsState';
 import PatientTable from '@components/patients/ui/PatientTable';
-import ThemeToggle from '@components/ui/ThemeToggle';
 import { usePatients } from '@queries/patient';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { Paper, TextInput, Button, Group, Title, Stack, ActionIcon, Flex } from '@mantine/core';
@@ -97,14 +96,13 @@ const PatientList = () => {
   return (
     <Stack gap="xl">
       <Paper p="xl" shadow="md" radius="lg" withBorder>
-        <Group justify="space-between" mb="xl">
+        <Group justify="flex-start" mb="xl">
           <Title order={2} c="primary">
             <Group gap="xs">
               <IconUsers size={24} />
               Patient List
             </Group>
           </Title>
-          <ThemeToggle />
         </Group>
 
         <Flex gap="md" direction={{ base: 'column', sm: 'row' }}>

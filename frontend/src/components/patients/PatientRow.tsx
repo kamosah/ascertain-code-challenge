@@ -1,7 +1,7 @@
 import { Patient } from '@queries/patient';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Table, ActionIcon, Badge, Code, Group, Text, Tooltip } from '@mantine/core';
+import { Table, ActionIcon, Badge, Code, Group, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import { IconEye, IconEdit, IconTrash } from '@tabler/icons-react';
 
 interface PatientRowProps {
@@ -11,6 +11,11 @@ interface PatientRowProps {
 const PatientRow = ({ patient }: PatientRowProps) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+  const { colorScheme } = useMantineColorScheme();
+
+  const getHoverColor = () => {
+    return colorScheme === 'dark' ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)';
+  };
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
@@ -27,7 +32,7 @@ const PatientRow = ({ patient }: PatientRowProps) => {
       onMouseLeave={() => setIsHovered(false)}
       style={{
         cursor: 'pointer',
-        backgroundColor: isHovered ? 'var(--mantine-color-gray-0)' : 'transparent',
+        backgroundColor: isHovered ? getHoverColor() : 'transparent',
       }}
     >
       <Table.Td>

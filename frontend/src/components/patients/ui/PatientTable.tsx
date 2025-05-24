@@ -14,7 +14,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients, totalCount }) => 
     <Stack gap="md">
       <Paper shadow="xl" radius="lg" withBorder>
         <Table.ScrollContainer minWidth={600}>
-          <Table striped highlightOnHover verticalSpacing="md">
+          <Table striped verticalSpacing="md">
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Name</Table.Th>
