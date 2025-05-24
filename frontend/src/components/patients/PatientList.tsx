@@ -59,11 +59,11 @@ const PatientList = () => {
 
   // Memoize filtered patients to avoid unnecessary recalculations
   const filteredPatients = useMemo(() => {
-    return data?.patients
-      ? data.patients.filter((patient) =>
-          patient.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      : [];
+    if (!data?.patients) return [];
+
+    return data.patients.filter((patient) =>
+      patient.full_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   }, [data?.patients, searchQuery]);
 
   // Determine the content to display based on state

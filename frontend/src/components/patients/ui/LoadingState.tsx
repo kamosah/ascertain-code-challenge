@@ -1,4 +1,4 @@
-import { Paper, Stack, Loader, Text, Skeleton } from '@mantine/core';
+import { Paper, Stack, Loader, Text } from '@mantine/core';
 
 const LoadingState = () => (
   <Paper shadow="md" radius="lg" p="xl" withBorder>
@@ -12,13 +12,6 @@ const LoadingState = () => (
         <Text size="sm" c="dimmed">
           This may take a moment...
         </Text>
-      </Stack>
-
-      {/* Loading skeleton for table */}
-      <Stack gap="md" style={{ width: '100%', maxWidth: '24rem' }}>
-        <Skeleton height={12} width="75%" radius="xl" />
-        <Skeleton height={12} width="50%" radius="xl" />
-        <Skeleton height={12} width="85%" radius="xl" />
       </Stack>
     </Stack>
   </Paper>

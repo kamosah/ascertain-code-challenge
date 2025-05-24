@@ -50,8 +50,26 @@ button:focus, a:focus, input:focus, select:focus, textarea:focus {
   background-color: var(--mantine-color-dark-4);
 }
 
-[data-mantine-color-scheme="dark"] ::-webkit-scrollbar-track {
-  background-color: var(--mantine-color-dark-6);
+/* Responsive visibility utilities for table columns */
+/* These utilities provide responsive column hiding for TanStack Table implementation */
+/* Breakpoints align with common responsive design patterns */
+
+@media (max-width: 768px) {
+  .visible-from-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .visible-from-md {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .visible-from-lg {
+    display: none !important;
+  }
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
