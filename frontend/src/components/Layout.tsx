@@ -1,3 +1,4 @@
+import { AppShell, Container, Group, Text } from '@mantine/core';
 import { ReactNode } from 'react';
 
 interface LayoutProps {
@@ -5,19 +6,35 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  // Theme management is handled by ThemeToggle component and index.html script
-
   return (
-    <div className="min-h-screen flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-200">
-      <main className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">{children}</div>
-      </main>
-      <footer className="bg-white dark:bg-secondary-800 border-t border-secondary-200 dark:border-secondary-700 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm text-secondary-500 dark:text-secondary-400">
-          © {new Date().getFullYear()} Patient Portal. All rights reserved.
-        </div>
-      </footer>
-    </div>
+    <AppShell
+      footer={{ height: 60 }}
+      styles={{
+        main: {
+          minHeight: 'calc(100vh - 60px)',
+          backgroundColor: 'var(--mantine-color-body)',
+        },
+      }}
+    >
+      <AppShell.Main>
+        <Container size="xl" py="xl">
+          {children}
+        </Container>
+      </AppShell.Main>
+
+      <AppShell.Footer
+        style={{
+          borderTop: '1px solid var(--mantine-color-gray-3)',
+          backgroundColor: 'var(--mantine-color-body)',
+        }}
+      >
+        <Group justify="center" h="100%">
+          <Text size="sm" c="dimmed">
+            © {new Date().getFullYear()} Patient Portal. All rights reserved.
+          </Text>
+        </Group>
+      </AppShell.Footer>
+    </AppShell>
   );
 };
 

@@ -10,8 +10,9 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
       { find: '@components', replacement: '/src/components' },
       { find: '@queries', replacement: '/src/queries' },
-      { find: '@types', replacement: '/src/types' }
-    ]
+      { find: '@types', replacement: '/src/types' },
+      { find: '@test', replacement: '/src/test' },
+    ],
   },
   // @ts-expect-error - Vitest configuration
   test: {
@@ -19,4 +20,4 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
   },
-})
+});

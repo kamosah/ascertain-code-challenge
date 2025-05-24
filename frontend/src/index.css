@@ -1,8 +1,13 @@
-@import "tailwindcss";
-
-/* Custom theme configuration for Tailwind CSS v4 */
-@theme {
-  /* Custom Colors */
+/* Modern styling with Mantine theme support */
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Custom CSS variables for theme consistency */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-200: #bfdbfe;
@@ -26,84 +31,61 @@
   --color-secondary-800: #1e293b;
   --color-secondary-900: #0f172a;
   --color-secondary-950: #020617;
-
-  /* Custom Spacing */
-  --spacing-18: 4.5rem;
-  --spacing-22: 5.5rem;
-
-  /* Custom Animations */
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-fade-in: fadeIn 0.4s ease-out forwards;
-  --animate-pulse-custom: pulse 1.5s ease-in-out infinite;
-
-  /* Custom Keyframes */
-  --keyframes-fadeIn: 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); };
-  --keyframes-pulse: 0%, 100% { opacity: 1; } 50% { opacity: 0.6; };
 }
 
-/* Modern styling */
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+/* Base styles */
+html {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
-@layer base {
-  html {
-    @apply antialiased scroll-smooth;
-  }
-  body {
-    @apply m-0 text-secondary-900 dark:text-white bg-secondary-50 dark:bg-secondary-900 transition-colors duration-200;
-    min-width: 320px;
-    display: flex;
-    min-height: 100vh;
-  }
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-  }
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
+body {
+  margin: 0;
+  color: var(--color-secondary-900);
+  background-color: var(--color-secondary-50);
+  transition: color 0.2s, background-color 0.2s;
+  min-width: 320px;
+  display: flex;
+  min-height: 100vh;
 }
 
+[data-mantine-color-scheme="dark"] body {
+  color: white;
+  background-color: var(--color-secondary-900);
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Selection styles */
 ::selection {
-  @apply bg-primary-200 dark:bg-primary-800 text-primary-900 dark:text-primary-100;
+  background-color: var(--color-primary-200);
+  color: var(--color-primary-900);
 }
 
+[data-mantine-color-scheme="dark"] ::selection {
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-100);
+}
+
+/* Link styles */
 a {
-  @apply font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors;
+  font-weight: 500;
+  color: var(--color-primary-600);
   text-decoration: inherit;
+  transition: color 0.2s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+a:hover {
+  color: var(--color-primary-800);
+}
+
+[data-mantine-color-scheme="dark"] a {
+  color: var(--color-primary-400);
+}
+
+[data-mantine-color-scheme="dark"] a:hover {
+  color: var(--color-primary-300);
 }

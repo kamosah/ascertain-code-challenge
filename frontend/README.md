@@ -6,10 +6,9 @@ This is the frontend application for the Ascertain Code Challenge, built with Re
 
 - React 19 with TypeScript
 - Vite for building and development
-- Mantine UI for component library
+- Mantine UI for component library and styling
 - TanStack React Query for data fetching
 - React Router for navigation
-- Tailwind CSS for styling
 - Vitest and Testing Library for testing
 - Storybook for component documentation
 

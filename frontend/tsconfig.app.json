@@ -26,18 +26,11 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@queries/*": [
-        "src/queries/*"
-      ],
-      "@types/*": [
-        "src/types/*"
-      ]
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@queries/*": ["src/queries/*"],
+      "@types/*": ["src/types/*"],
+      "@test/*": ["src/test/*"]
     }
   },
   "include": [

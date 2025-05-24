@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen, fireEvent, waitFor } from '@test/utils';
 import PatientList from '../PatientList';
 import { usePatients, type Patient } from '@queries/patient';
 
@@ -57,9 +56,9 @@ vi.mock('@components/patients/ui/PatientTable', () => ({
           {patient.full_name}
         </div>
       ))}
-      <div className="text-sm text-gray-700">
-        Showing <span className="font-medium">{patients.length}</span> of{' '}
-        <span className="font-medium">{totalCount}</span> patient(s)
+      <div>
+        Showing <span data-testid="patients-count">{patients.length}</span> of{' '}
+        <span data-testid="total-count">{totalCount}</span> patient(s)
       </div>
     </div>
   ),
@@ -72,21 +71,6 @@ vi.mock('@components/patients/PatientRow', () => ({
     </tr>
   ),
 }));
-
-// Create a wrapper with React Query client for testing
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const renderWithClient = (ui: React.ReactElement) => {
-  const testQueryClient = createTestQueryClient();
-  return render(<QueryClientProvider client={testQueryClient}>{ui}</QueryClientProvider>);
-};
 
 describe('PatientList Component', () => {
   const mockPatients: Patient[] = [
@@ -125,7 +109,7 @@ describe('PatientList Component', () => {
       refetch: mockRefetch,
     } as UsePatientsReturn);
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
     expect(screen.getByTestId('loading-state')).toBeInTheDocument();
   });
 
@@ -139,7 +123,7 @@ describe('PatientList Component', () => {
       refetch: mockRefetch,
     } as UsePatientsReturn);
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
     expect(screen.getByTestId('error-state')).toBeInTheDocument();
     expect(screen.getByTestId('error-state').textContent).toContain('Failed to fetch');
 
@@ -157,7 +141,7 @@ describe('PatientList Component', () => {
       refetch: mockRefetch,
     } as UsePatientsReturn);
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
     expect(screen.getByTestId('empty-state')).toBeInTheDocument();
   });
 
@@ -170,7 +154,7 @@ describe('PatientList Component', () => {
       refetch: mockRefetch,
     } as UsePatientsReturn);
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
 
     // Check that patient rows are rendered
     expect(screen.getByTestId('patient-row-001')).toBeInTheDocument();
@@ -179,7 +163,8 @@ describe('PatientList Component', () => {
 
     // Check that the patient count is displayed correctly
     expect(screen.getByText(/showing/i)).toBeInTheDocument();
-    expect(screen.getAllByText('3', { selector: 'span.font-medium' }).length).toBe(2);
+    expect(screen.getByTestId('patients-count')).toHaveTextContent('3');
+    expect(screen.getByTestId('total-count')).toHaveTextContent('3');
   });
 
   it('should filter patients by name when searching', async () => {
@@ -209,7 +194,7 @@ describe('PatientList Component', () => {
       }
     );
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
 
     // Initial render should show all patients
     expect(screen.getByTestId('patient-row-001')).toBeInTheDocument();
@@ -252,7 +237,7 @@ describe('PatientList Component', () => {
       }
     );
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
 
     // Enter search term
     const searchInput = screen.getByPlaceholderText('Search patients by name...');
@@ -286,7 +271,7 @@ describe('PatientList Component', () => {
       }
     );
 
-    renderWithClient(<PatientList />);
+    render(<PatientList />);
 
     // Enter search term that won't match any patients
     const searchInput = screen.getByPlaceholderText('Search patients by name...');
@@ -323,7 +308,7 @@ describe('PatientList Component', () => {
       refetch: mockRefetch,
     } as UsePatientsReturn);
 
-    const { rerender } = renderWithClient(<PatientList />);
+    const { rerender } = render(<PatientList />);
     expect(screen.getByTestId('loading-state')).toBeInTheDocument();
     assertSearchUIExists();
 

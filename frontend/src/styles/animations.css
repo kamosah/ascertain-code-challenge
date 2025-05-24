@@ -1,4 +1,4 @@
-/* Custom animations for use with Tailwind */
+/* Custom animations for Mantine components */
 
 /* Fade in animation */
 @keyframes fadeIn {
@@ -43,8 +43,8 @@
 
 /* Focus ring animation */
 @keyframes focusRing {
-  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-  100% { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4); }
+  0% { box-shadow: 0 0 0 0 var(--mantine-color-blue-4); }
+  100% { box-shadow: 0 0 0 3px var(--mantine-color-blue-4); }
 }
 
 .animate-focus-ring {
