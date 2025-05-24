@@ -101,7 +101,6 @@ describe('PatientList Component', () => {
   });
 
   it('should show loading state when data is loading', () => {
-    // Setup the mock to return loading state
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: true,
       isError: false,
@@ -114,7 +113,6 @@ describe('PatientList Component', () => {
   });
 
   it('should show error state when there is an error', () => {
-    // Setup the mock to return error state
     const mockError = new Error('Failed to fetch');
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
@@ -133,7 +131,6 @@ describe('PatientList Component', () => {
   });
 
   it('should show empty state when no patients are found', () => {
-    // Setup the mock to return empty data
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
       isError: false,
@@ -146,7 +143,6 @@ describe('PatientList Component', () => {
   });
 
   it('should render a list of patients', async () => {
-    // Setup the mock to return patient data
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
       isError: false,
@@ -168,7 +164,6 @@ describe('PatientList Component', () => {
   });
 
   it('should filter patients by name when searching', async () => {
-    // Setup the mock to return patient data
     (usePatients as ReturnType<typeof vi.fn>).mockImplementation(
       (params: { name?: string } | undefined) => {
         // Simulate backend filtering for initial data load
@@ -219,7 +214,6 @@ describe('PatientList Component', () => {
   });
 
   it('should trigger search when pressing Enter key', async () => {
-    // Setup the mock
     (usePatients as ReturnType<typeof vi.fn>).mockImplementation(
       (params: { name?: string } | undefined) => {
         return {
@@ -256,7 +250,6 @@ describe('PatientList Component', () => {
   });
 
   it('should show empty state when search returns no results', async () => {
-    // Setup the mock
     (usePatients as ReturnType<typeof vi.fn>).mockImplementation(
       // Filtering is done on the frontend after initial backend search
       () => {
@@ -291,16 +284,14 @@ describe('PatientList Component', () => {
   });
 
   it('should always display search field regardless of component state', async () => {
-    // Define a function to check for search UI elements
     const assertSearchUIExists = () => {
       expect(screen.getByText('Patient List')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Search button' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Add a new patient' })).toBeInTheDocument();
-      // Use a more specific selector for the search input
       expect(screen.getByRole('textbox', { name: 'Search patients' })).toBeInTheDocument();
     };
 
-    // Test 1: Loading state
+    // Loading state
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: true,
       isError: false,
@@ -312,7 +303,7 @@ describe('PatientList Component', () => {
     expect(screen.getByTestId('loading-state')).toBeInTheDocument();
     assertSearchUIExists();
 
-    // Test 2: Error state
+    // Error state
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
       isError: true,
@@ -325,7 +316,7 @@ describe('PatientList Component', () => {
     expect(screen.getByTestId('error-state')).toBeInTheDocument();
     assertSearchUIExists();
 
-    // Test 3: Empty state
+    // Empty state
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
       isError: false,
@@ -337,7 +328,7 @@ describe('PatientList Component', () => {
     expect(screen.getByTestId('empty-state')).toBeInTheDocument();
     assertSearchUIExists();
 
-    // Test 4: With data
+    // With data
     (usePatients as ReturnType<typeof vi.fn>).mockReturnValue({
       isLoading: false,
       isError: false,

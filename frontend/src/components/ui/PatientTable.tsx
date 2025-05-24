@@ -66,11 +66,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients, totalCount }) => 
         header: 'DOB',
         cell: (info) => {
           const date = new Date(info.getValue());
-          return (
-            <Text size="sm" c="dimmed">
-              {date.toLocaleDateString()}
-            </Text>
-          );
+          return <Text size="sm">{date.toLocaleDateString()}</Text>;
         },
         enableSorting: true,
         meta: {
@@ -80,7 +76,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients, totalCount }) => 
       columnHelper.accessor('id', {
         header: 'ID',
         cell: (info) => (
-          <Text size="sm" ff="monospace" c="dimmed">
+          <Text size="sm" ff="monospace" c="secondary">
             {info.getValue()}
           </Text>
         ),
@@ -106,33 +102,32 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients, totalCount }) => 
         header: 'Actions',
         cell: ({ row }) => {
           const patient = row.original;
-          
           const handleViewPatient = () => {
             navigate(`/patients/${patient.id}`);
           };
 
           return (
             <Group gap="xs" justify="flex-end">
-              <ActionIcon 
-                variant="subtle" 
-                size="sm" 
+              <ActionIcon
+                variant="subtle"
+                size="sm"
                 aria-label={`View ${patient.full_name} details`}
                 onClick={handleViewPatient}
               >
                 <IconEye size={16} />
               </ActionIcon>
-              <ActionIcon 
-                variant="subtle" 
-                size="sm" 
+              <ActionIcon
+                variant="subtle"
+                size="sm"
                 aria-label={`Edit ${patient.full_name}`}
                 disabled
                 color="gray"
               >
                 <IconEdit size={16} />
               </ActionIcon>
-              <ActionIcon 
-                variant="subtle" 
-                size="sm" 
+              <ActionIcon
+                variant="subtle"
+                size="sm"
                 aria-label={`Delete ${patient.full_name}`}
                 disabled
                 color="red"

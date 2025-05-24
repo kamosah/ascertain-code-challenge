@@ -14,7 +14,6 @@ const PatientList = () => {
   const [isSearching, setIsSearching] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Use React Query to fetch patients data
   const { data, isLoading, isError, error, refetch } = usePatients(
     searchQuery ? { name: searchQuery, limit: 10 } : undefined
   );

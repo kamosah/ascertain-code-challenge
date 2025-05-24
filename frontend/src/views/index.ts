@@ -1,2 +1,1 @@
-// Views
 export * from './patients';

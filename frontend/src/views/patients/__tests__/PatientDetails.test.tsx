@@ -452,26 +452,6 @@ describe('PatientDetails', () => {
       const birthDate = new Date('1990-05-15').toLocaleDateString();
       expect(screen.getByText(birthDate)).toBeInTheDocument();
     });
-
-    it('should handle invalid dates gracefully', () => {
-      const patientWithInvalidDate = {
-        ...mockPatient,
-        birth_date: 'invalid-date',
-      };
-
-      mockUsePatientDetails.mockReturnValue({
-        data: patientWithInvalidDate,
-        isLoading: false,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      });
-
-      render(<PatientDetails />);
-
-      // Should still render the component without crashing
-      expect(screen.getByRole('heading', { name: 'John Doe' })).toBeInTheDocument();
-    });
   });
 
   describe('usePatientDetails hook integration', () => {

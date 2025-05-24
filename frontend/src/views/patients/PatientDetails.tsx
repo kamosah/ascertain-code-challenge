@@ -30,15 +30,7 @@ interface PatientInfoTableProps {
 const PatientInfoTable = ({ data }: PatientInfoTableProps) => {
   const rows = data.map((item, index) => (
     <Table.Tr key={index}>
-      <Table.Td
-        style={{
-          fontWeight: 500,
-          color: 'var(--mantine-color-dimmed)',
-          width: '180px',
-          whiteSpace: 'nowrap',
-        }}
-        p="lg"
-      >
+      <Table.Td style={{ whiteSpace: 'nowrap' }} p="lg" c="dimmed" w="180px" fw={500}>
         {item.label}
       </Table.Td>
       <Table.Td>{item.value || 'N/A'}</Table.Td>
@@ -86,7 +78,7 @@ const EncounterCard = ({ encounter }: EncounterCardProps) => {
     ? `${formatDate(encounter.period.start)} ${encounter.period.end ? `to ${formatDate(encounter.period.end)}` : ''}`
     : 'Date not specified';
 
-  const getStatusColor = (status: string) => {
+  const getEncounterStatusColor = (status: string) => {
     switch (status) {
       case 'finished':
         return 'green';
@@ -127,7 +119,7 @@ const EncounterCard = ({ encounter }: EncounterCardProps) => {
             {periodText}
           </Text>
         </Stack>
-        <Badge color={getStatusColor(encounter.status)} variant="light" size="sm">
+        <Badge color={getEncounterStatusColor(encounter.status)} variant="light" size="sm">
           {encounter.status.charAt(0).toUpperCase() + encounter.status.slice(1)}
         </Badge>
       </Group>
@@ -163,7 +155,7 @@ const MedicationCard = ({ medication }: MedicationCardProps) => {
   // Extract dosage instructions if available
   const dosage = medication.dosageInstruction?.[0]?.text || 'No dosage instructions provided';
 
-  const getStatusColor = (status: string) => {
+  const getMedicationStatusColor = (status: string) => {
     switch (status) {
       case 'active':
         return 'green';
@@ -201,7 +193,7 @@ const MedicationCard = ({ medication }: MedicationCardProps) => {
             Prescribed: {formatDate(medication.authoredOn)}
           </Text>
         </Stack>
-        <Badge color={getStatusColor(medication.status)} variant="light" size="sm">
+        <Badge color={getMedicationStatusColor(medication.status)} variant="light" size="sm">
           {medication.status.charAt(0).toUpperCase() + medication.status.slice(1)}
         </Badge>
       </Group>
@@ -312,7 +304,7 @@ const PatientDetails = () => {
           >
             <Stack gap="xs">
               <Title order={2}>{patient.full_name}</Title>
-              <Text size="sm" c="dimmed">
+              <Text size="sm" c="secondary">
                 Patient ID: {patient.id}
               </Text>
             </Stack>
