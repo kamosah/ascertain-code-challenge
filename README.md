@@ -2,6 +2,7 @@
 
 The following tables showcase the different views of the application in both light and dark modes:
 
+
 ### Patient List View
 
 | Light Mode | Dark Mode |
