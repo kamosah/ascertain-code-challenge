@@ -6,25 +6,25 @@ The following tables showcase the different views of the application in both lig
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient List Light](frontend/public/images/PatientListLight.png) | ![Patient List Dark](frontend/public/images/PatientListDark.png) |
+| ![Patient List Light](./frontend/public/images/PatientListLight.png) | ![Patient List Dark](./frontend/public/images/PatientListDark.png) |
 
 ### Patient Details - Details View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Details Light](frontend/public/images/PatientDetailsDetailsLight.png) | ![Patient Details Dark](frontend/public/images/PatientDetailsDetailsDark.png) |
+| ![Patient Details Light](./frontend/public/images/PatientDetailsDetailsLight.png) | ![Patient Details Dark](./frontend/public/images/PatientDetailsDetailsDark.png) |
 
 ### Patient Details - Encounters View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Encounters Light](frontend/public/images/PatientDetailsEncountersLight.png) | ![Patient Encounters Dark](frontend/public/images/PatientDetailsEncountersDark.png) |
+| ![Patient Encounters Light](./frontend/public/images/PatientDetailsEncountersLight.png) | ![Patient Encounters Dark](./frontend/public/images/PatientDetailsEncountersDark.png) |
 
 ### Patient Details - Medications View
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Patient Medications Light](frontend/public/images/PatientDetailsMedicationsLight.png) | ![Patient Medications Dark](frontend/public/images/PatientDetailsMedicationsDark.png) |
+| ![Patient Medications Light](./frontend/public/images/PatientDetailsMedicationsLight.png) | ![Patient Medications Dark](./frontend/public/images/PatientDetailsMedicationsDark.png) |
 
 # Ascertain Code Challenge
 
