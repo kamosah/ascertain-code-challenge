@@ -26,6 +26,18 @@ The following tables showcase the different views of the application in both lig
 |------------|-----------|
 | ![Patient Medications Light](https://github.com/user-attachments/assets/369bba5d-a429-4958-b6d8-e7675ac5dd28) | ![Patient Medications Dark](https://github.com/user-attachments/assets/06654550-020d-4bd1-95ae-e71b2635eb00) |
 
+## Production Usage
+
+The frontend is hosted on Vercel, and the backend is deployed on Render. Note that the Render free tier spins down the backend after periods of inactivity, which may cause a delay of 30-60 seconds when you first visit the frontend or after a period of no requests. If you encounter a loading delay or an error (e.g., "API request failed"), please wait a moment and refresh the page. The backend will wake up, and subsequent requests will be faster.
+
+To access the live application:
+
+- **Frontend**: [https://ascertain-code-challenge.vercel.app/](https://ascertain-code-challenge.vercel.app/)
+- **Backend API**: [https://ascertain-code-challenge-backend.onrender.com](https://ascertain-code-challenge-backend.onrender.com)
+- **API Documentation**: [https://ascertain-code-challenge-backend.onrender.com/docs](https://ascertain-code-challenge-backend.onrender.com/docs)
+
+If the frontend is unresponsive, try refreshing after a minute to allow the backend to start.
+
 # Ascertain Code Challenge
 
 This repository contains Ascertain's technical assessment.
